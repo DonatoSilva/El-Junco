@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="Js/Toastify/toastify.js"></script>
+    <link rel="stylesheet" href="Css/Toastify/toastify.css">
+    <link rel="stylesheet" href="Css/General.css">
+    <link rel="stylesheet" href="Css/Almacen.css">
+</head>
+
+<body>
+    <div id="navbar"></div> <!--Barra de navegacion generada por javascript-->
+    <div style="padding-top: 24px;" class="container">
+        <div class="d-flex justify-content-between">
+            <h3>Almacen</h3>
+            <div>
+                <button type="button" class="btn btn-agregar fw-normal" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasaddproductos" aria-controls="offcanvasaddproductos">Nuevo Prod. <i
+                        class="bi bi-plus-square"></i></button>
+                <button type="button" class="btn btn-Kit fw-normal" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasaddkit" aria-controls="offcanvasaddkit">Kit <i
+                        class="bi bi-plus-square"></i></button>
+            </div>
+        </div>
+        <hr>
+        <!--Contenedores de los kits agregados y los productos en el rango del minimo (se maximo a mostrar 5 item)-->
+        <div class="row m-0 mb-3">
+            <div class="col-lg-6 col-md-12 px-0 px-lg-2">
+                <div class="text-white rounded-4 p-2 pe-3 ps-3" style="background-color: #04151F;">
+                    <div class="text-center fw-bold mb-2">Lista de kits registrados</div>
+                    <div><h5 class="fw-bold my-0 py-0 pb-3">Total kits: <span class="fw-normal" id="longitudKits">--</span></h5></div>
+                    <div class="p-2 rounded-bottom-4 mb-2" style="background-color: #fff; color: #04151F;">
+                        <div class="row mb-2 fw-bold">
+                            <div class="col-6 border-end border-secondary m-auto">Nombre del Kit</div>
+                            <div class="col-2 border-end border-secondary m-auto"
+                                style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">C. aprox.
+                            </div>
+                            <div class="col-2 border-end border-secondary m-auto"
+                                style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Precio
+                            </div>
+                            <div class="col-2 m-auto">Mas...</div>
+                        </div>
+                        <hr class="m-0">
+                        <ul class="list-group list-group-flush" id="itemListKits">
+                            
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-center my-2"><button type="button" class="btn btn-agregar small p-1 me-1"
+                        style="width: 60%;" id="listFullKits"><i class="bi bi-list-columns-reverse"></i> Listado completo</button></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 px-0 px-lg-2">
+                <div class="p-2 pe-3 ps-3 rounded-4 mt-3 mt-lg-0 text-white" style="background-color: #DB3A34;">
+                    <div class="text-center mb-2 fw-bold">Lista de productos en el rango min.</div>
+                    <div><h5 class="fw-bold my-0 py-0 pb-3">Total productos: <span class="fw-normal" id="longitudMinProduct">--</span></h5></div>
+                    <div class="p-2 rounded-bottom-4 mb-2" style="background-color: #fff; color: #04151F;">
+                        <div class="row mb-2 fw-bold">
+                            <div class="col-6 border-end border-secondary m-auto">Nombre</div>
+                            <div class="col-2 border-end border-secondary m-auto">Min.</div>
+                            <div class="col-2 border-end border-secondary m-auto">Actual</div>
+                            <div class="col-2 m-auto">Mas...</div>
+                        </div>
+                        <hr class="m-0">
+                        <ul class="list-group list-group-flush" id="gruopMinProduct">
+                            
+                        </ul>
+                    </div>
+                    <div class="d-flex justify-content-center my-2"><button type="button" class="btn btn-agregar small p-1 me-1"
+                        style="width: 60%;" id="listFullMinProduct"><i class="bi bi-list-columns-reverse"></i> Listado completo</button></div>
+                </div>
+            </div>
+        </div>
+        <div id="almacenTable" class="w-100">
+            <table class="w-90 table caption-top">
+                <caption class="fw-bold text-center">Lista de productos registados</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Marca</th>
+                        <th scope="col">Cant. actual</th>
+                        <th scope="col">P. venta</th>
+                        <th scope="col">Mas...</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--offcanvas para panel para modificar productos-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasfuntablaproduc"
+        aria-labelledby="offcanvasfuntablaproduc">
+        <div class="offcanvas-header">
+            <!-- TODO: titulo del affcanvas es aqui donde va la estructura -->
+            <h5 class="offcanvas-title" id="offcanvasfuntablaproduclabel">Panel de productos 📂</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body detalles">
+            <!-- TODO: Cuerpo del affcanvas es aqui donde va la estructura -->
+            <div id="detallesProducto">
+                <h5 class="fw-bold text-center">Detalles del producto</h5>
+                <hr>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item fw-bold">
+                        <span class="">Nombre: <p class="fw-light" id="offNombre">Codo de B-45</p></span>
+                    </li>
+                    <li class="list-group-item fw-bold">
+                        <span class="">Marca: <p class="fw-light" id="offMarca">Original - Shindawoa</p></span>
+                    </li>
+                    <li class="list-group-item fw-bold d-flex">
+                        <span class="col-6">Cant. actual: <p class="fw-light mb-0" style="font-size: large;" id="offCantActual">45</p><span class="fw-light my-0" style="font-size: smaller;">Unidades</span></span>
+                        <span class="col-6">Cant. min.: <p class="fw-light" style="font-size: large;" id="offCantMin">5</p><span class="fw-light my-0" style="font-size: smaller;">Unidades</span></span>
+                    </li>
+                </ul>
+                <h5 class="fw-bold text-center mt-3">Detalles de compra</h5>
+                <hr>
+                <ul class="fw-bold list-group list-group-flush">
+                    <li class="list-group-item fw-bold">
+                        <span class="">Precio Compra: <p class="fw-light" id="offPrecCompra">$40000</p></span>
+                    </li>
+                    <li class="list-group-item fw-bold d-flex">
+                        <span class="col-4">Unidad: <p class="fw-light" id="offUndPrecCompra">Paquete:</p></span>
+                        <span class="col-8">inf. adicional: <p class="fw-light" id="offInfUndCompra">x20 Unidades</p></span>
+                    </li>
+                </ul>
+                <h5 class="fw-bold text-center mt-3">Detalles de venta</h5>
+                <hr>
+                <ul class="fw-bold list-group list-group-flush">
+                    <li class="list-group-item fw-bold">
+                        <span class="">Precio venta: <p class="fw-light" id="offPrecVenta">$40000</p></span>
+                    </li>
+                    <li class="list-group-item fw-bold d-flex">
+                        <span class="col-4">Unidad: <p class="fw-light" id="offUndPrecVenta">Paquete:</p></span>
+                        <span class="col-8">inf. adicional: <p class="fw-light" id="offInfUndVenta">x20 Unidades</p></span>
+                    </li>
+                </ul>
+                <div class="d-flex justify-content-center py-3">
+                    <div class="btn-group" role="group" aria-label="Grupo de botones centrados">
+                        <button type="button" class="btn btn-eliminar" id="offBtnEliminar"><i
+                                class="bi bi-trash3-fill"></i></button>
+                        <button type="button" class="btn btn-agregar" id="offBtnActualizarProd"><i class="bi bi-pencil-square"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div id="editProductoForm" style="display: none; padding: 16px;">
+                <div class="detallesForm">
+                    <div class="mb-2">
+                        <h3 class="fw-bold text-center mt-1">Inf. Producto</h3>
+                        <hr>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="nameEditForm">Nombre:</label>
+                            <input type="text" class="form-control" id="nameEditForm"
+                                placeholder="Nombre del producto, ejm: Guadaña B-45">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="marcaEditForm">Marca:</label>
+                            <input type="text" class="form-control" id="marcaEditForm"
+                                placeholder="Marca del producto, ejm: Shindaiwa">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="col-6" style="padding-right: 2px;">
+                                <label class="form-label" for="CantEditForm">Cantidad:</label>
+                                <input type="number" class="form-control" placeholder="Ejemplo: 49"
+                                    aria-label="labelProducto" id="CantEditForm">
+                            </div>
+                            <div class="col-6" style="padding-left: 2px;;">
+                                <label class="form-label" for="Cant-minEditForm">Cantida mínima:</label>
+                                <input type="number" class="form-control" placeholder="Ejemplo: 5"
+                                    aria-label="labelProducto" id="Cant-minEditForm">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <h3 class="fw-bold text-center mt-1">Inf. Compra</h3>
+                        <hr>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="Precio-compraEditForm">Precio de compra:</label>
+                            <input type="number" class="form-control" placeholder="Ejemplo: 45000"
+                                aria-label="labelPrecio" id="Precio-compraEditForm">
+                        </div>
+                        <label for="Unidad-compraEditForm" class="mb-2">Unidad de compra:</label>
+                        <div class="input-group mb-2">
+                            <div class="w-30">
+                                <select class="form-select" id="Unidad-compraEditForm" aria-label="Tipo de unidad"
+                                    style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                                    <option value="">Selecciona</option>
+                                    <option value="1">Unidad</option>
+                                    <option value="2">Paquete</option>
+                                    <option value="3">Metros</option>
+                                </select>
+                            </div>
+                            <input type="text" class="form-control" id="infUndCompraEditForm"
+                                placeholder="Mas informacion">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <h3 class="fw-bold text-center mt-1">Inf. Venta</h3>
+                        <hr>
+                        <div class="form-group mb-2">
+                            <label for="Precio-ventaEditForm" class="form-label">Precio de venta:</label>
+                            <input type="number" class="form-control" placeholder="Precio de Venta"
+                                aria-label="labelPrecio" id="Precio-ventaEditForm">
+                        </div>
+                        <label for="Unidad-ventaEditForm" class="mb-2">Unidad de venta:</label>
+                        <div class="input-group mb-2">
+                            <div class="w-30">
+                                <select class="form-select" id="Unidad-ventaEditForm" aria-label="Tipo de unidad"
+                                    style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                                    <option value="">Selecciona</option>
+                                    <option value="1">Unidad</option>
+                                    <option value="2">Paquete</option>
+                                    <option value="3">Metros</option>
+                                </select>
+                            </div>
+                            <input type="text" class="form-control" id="infUndVentaEditForm"
+                                placeholder="Mas informacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center py-3">
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-eliminar" id="btnLimpiarEdit"><i
+                                class="bi bi-eraser"></i></button>
+                        <button type="button" class="btn btn-cancelar" id="btnCancelarEdit"><i
+                                class="bi bi-x-square"></i></button>
+                        <button type="button" class="btn btn-agregar" id="btnGuardarEdit">Actualizar <i
+                                class="bi bi-save2"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--*Offcanvas add kit-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasaddkit" aria-labelledby="offcanvasaddkit">
+        <div class="offcanvas-header">
+            <!-- TODO: titulo del affcanvas es aqui donde va la estructura -->
+            <h5 class="offcanvas-title" id="offcanvasaddkitlabel">Nuevo Kit 😋</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <h3 class="fw-bold text-center">Inf. del Kit</h3>
+            <hr>
+            <div class="input-group mb-2">
+                <div class="col-8 pe-1">
+                    <label for="nombreKit" class="form-label">Nombre del kit:</label>
+                    <input type="text" name="NameKit" id="nombreKit" class="form-control"
+                        placeholder="Ejemplo: Kit de repuesto">
+                </div>
+                <div class="col-4">
+                    <label for="precioKit" class="form-label">Precio:</label>
+                    <input type="number" class="form-control" id="precioKit" placeholder="Ejm: 243000">
+                </div>
+            </div>
+            <div class="groupProduct mt-3 pe-2 ps-2">
+                <div class="d-flex me-2 ms-2" id="groupProductHeader">
+                    <h4 class="w-100 m-auto">Lista de productos</h4>
+                    <button type="button" class="btn btn-Kit flex-shrink-1" id="addGroupKit"><i
+                            class="bi-plus-square"></i></button>
+                </div>
+                <hr>
+                <div id="groupProductBody" class="p-2">
+                    <div class="input-group mb-2 pe-1 ps-1">
+                        <div class="col-7 pe-1">
+                            <label for="">Producto</label>
+                        </div>
+                        <div class="col-4">
+                            <label for="">Cant.</label>
+                        </div>
+                        <div class="col-1 text-center">
+                            <label for=""><i class="bi bi-trash3"></i></i></label>
+                        </div>
+                    </div>
+                    <hr class="mt-2 mb-2">
+                    <!--Posible diseño para selecional el producto-->
+                    <div class="input-group mb-2  pe-1 ps-1" id="containerGroupKit">
+                        <h5 class="w-100 text-center opacity-50" id="textVacioGroup">Ningún producto</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example" style="margin-top: 10px;">
+                    <button type="button" class="btn btn-eliminar" id=""><i class="bi bi-eraser"></i></button>
+                    <button type="submit" class="btn btn-agregar" id="btnAddkits">Guardar <i class="bi bi-save2"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--*Offcanvas add producto-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasaddproductos"
+        aria-labelledby="offcanvasaddproductos">
+        <div class="offcanvas-header">
+            <!-- TODO: titulo del affcanvas es aqui donde va la estructura -->
+            <h5 class="offcanvas-title" id="offcanvasaddproductoslabel">Agregar producto 📦</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form id="formulario">
+                <div class="detalles">
+                    <div class="mb-2">
+                        <h3 class="fw-bold text-center mt-1">Inf. Producto</h3>
+                        <hr>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="name">Nombre:</label>
+                            <input type="text" class="form-control" id="name"
+                                placeholder="Nombre del producto, ejm: Guadaña B-45">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="marca">Marca:</label>
+                            <input type="text" class="form-control" id="marca"
+                                placeholder="Marca del producto, ejm: Shindaiwa">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="col-6" style="padding-right: 2px;">
+                                <label class="form-label" for="Cant">Cantidad:</label>
+                                <input type="number" class="form-control" placeholder="Ejemplo: 49"
+                                    aria-label="labelProducto" id="Cant">
+                            </div>
+                            <div class="col-6" style="padding-left: 2px;;">
+                                <label class="form-label" for="Cant-min">Cantida mínima:</label>
+                                <input type="number" class="form-control" placeholder="Ejemplo: 5"
+                                    aria-label="labelProducto" id="Cant-min">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <h3 class="fw-bold text-center mt-1">Inf. Compra</h3>
+                        <hr>
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="Precio-compra">Precio de compra:</label>
+                            <input type="number" class="form-control" placeholder="Ejemplo: 45000"
+                                aria-label="labelPrecio" id="Precio-compra">
+                        </div>
+                        <label for="Unidad-compra" class="mb-2">Unidad de compra:</label>
+                        <div class="input-group mb-2">
+                            <div class="w-30">
+                                <select class="form-select" id="Unidad-compra" aria-label="Tipo de unidad"
+                                    style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                                    <option value="">Selecciona</option>
+                                    <option value="1">Unidad</option>
+                                    <option value="2">Paquete</option>
+                                    <option value="3">Metros</option>
+                                </select>
+                            </div>
+                            <input type="text" class="form-control" id="infUndCompra" placeholder="Mas informacion">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <h3 class="fw-bold text-center mt-1">Inf. Venta</h3>
+                        <hr>
+                        <div class="form-group mb-2">
+                            <label for="Precio-venta" class="form-label">Precio de venta:</label>
+                            <input type="number" class="form-control" placeholder="Precio de Venta"
+                                aria-label="labelPrecio" id="Precio-venta">
+                        </div>
+                        <label for="" class="mb-2">Unidad de venta:</label>
+                        <div class="input-group mb-2">
+                            <div class="w-30">
+                                <select class="form-select" id="Unidad-venta" aria-label="Tipo de unidad"
+                                    style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                                    <option value="">Selecciona</option>
+                                    <option value="1">Unidad</option>
+                                    <option value="2">Paquete</option>
+                                    <option value="3">Metros</option>
+                                </select>
+                            </div>
+                            <input type="text" class="form-control" id="infUndVenta" placeholder="Mas informacion">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example"
+                        style="margin-top: 10px;">
+                        <button type="button" class="btn btn-eliminar" id="btnLimpiar"><i
+                                class="bi bi-eraser"></i></button>
+                        <button type="submit" class="btn btn-agregar" id="btnAgregar">Guardar <i
+                                class="bi bi-save2"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="Js/page/Almacen.js" type="module"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+</body>
+
+</html>

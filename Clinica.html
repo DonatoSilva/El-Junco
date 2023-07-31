@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="Js/Toastify/toastify.js"></script>
+    <link rel="stylesheet" href="Css/Toastify/toastify.css">
+    <link rel="stylesheet" href="Css/General.css">
+    <link rel="stylesheet" href="Css/Clinica.css">
+</head>
+
+<body>
+    <!-- TODO: Etiqueta para generar el menu-->
+    <div id="navbar"></div>
+    <div class="container">
+        <div class="row p-3 rounded-4 text-white m-auto mt-3" style="background-color: #04151F;">
+            <div class="col-lg-7 col-md-12 p-0 m-auto">
+                <div class="fw-bolder display-6">Bienvenido al taller</div>
+                <div class="mb-1 fw-light" style="font-size: x-large;">figueroajesus2015@hotmail.com</div>
+            </div>
+            <div class="col-lg-5 col-md-12 p-2 rounded-4 mt-2 text-center" style="background-color: #fff; color: #04151F;" id="containerClock">
+                <div class="w-100 fw-bold display-3" id="clock">--:-- --</div>
+                <div class="w-100 small" id="data">---, --------</div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between mt-3">
+            <h3>Clinica</h3>
+            <button type="button" class="btn btn-agregar fw-normal" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasaddpaciente" aria-controls="offcanvasaddpaciente">Agregar <i
+                    class="bi bi-plus-square"></i></button>
+        </div>
+        <hr>
+        <div class="containerCard w-100 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title w-100 text-center">Pacientes en espera</h5>
+                    <h3 class="w-100 text-center display-4 fw-bolder" id="cantEspera">--</h3>
+                    <p class="card-text w-100 text-center fw-light">Total pacientes</p>
+                    <div class="d-flex justify-content-center"><a id="btnEspera" href="#" class="btn">Trabajar</a></div>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title w-100 text-center">Pacientes en procesos</h5>
+                    <h3 class="w-100 text-center display-4 fw-bolder" id="cantProceso">--</h3>
+                    <p class="card-text w-100 text-center fw-light">Total pacientes</p>
+                    <div class="d-flex justify-content-center"><a id="btnProceso" href="#" class="btn">Trabajar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title w-100 text-center">Pacientes terminados</h5>
+                    <h3 class="w-100 text-center display-4 fw-bolder" id="cantTerminado">--</h3>
+                    <p class="card-text w-100 text-center fw-light">Total pacientes</p>
+                    <div class="d-flex justify-content-center"><a id="btnTerminados" href="#" class="btn">Trabajar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="clinicaTable" class=" w-100">
+            <table class="w-90 table caption-top  align-middle">
+                <caption>Lista de pacientes en espera</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Dueño</th>
+                        <th scope="col">N° maq.</th>
+                        <th scope="col">M. maq.</th>
+                        <th scope="col">Fecha registro</th>
+                        <th scope="col">Funciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <!--*Offcanvas add funciones tabla-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasfuntablaproduc" aria-labelledby="offcanvasfuntablaproduc">
+        <div class="offcanvas-header">
+            <!-- TODO: titulo del affcanvas es aqui donde va la estructura -->
+            <h5 class="offcanvas-title" id="offcanvasfuntablalabel">Panel de paciente 😶‍🌫️</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body detalles">
+            <div id="estadoPac" class="fw-bold">
+                <p>Estado actual:</p><span class="fw-normal rounded" id="estadoDet">Espera</span>
+            </div>
+            <!-- TODO: Cuerpo del affcanvas para mostrar la info -->
+            <div id="mostrarDetalles" style="padding: 0;">
+                <div id="detallesDueño">
+                    <h5 class="fw-bold text-center">Detalles del dueño</h5>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item fw-bold">Nombre: <p class="fw-light" id="nameDueñoDet">Jesus Donato
+                                Silva
+                                Figueroa</p>
+                        </li>
+                        <li class="list-group-item fw-bold">Direccion: <p class="fw-light" id="direccionDueñoDet">
+                                Barichara,
+                                carrera 8
+                                #8 - 32</p>
+                        </li>
+                        <li class="list-group-item fw-bold d-flex">
+                            <span class="col-4">Telefono: <p class="fw-light" id="telefonoDueñoDet">3166705236</p>
+                            </span>
+                            <span class="col-8">Cédula: <p class="fw-light" id="cedulaDueñoDet">1002250123</p></span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="detallesMaquina">
+                    <h5 class="fw-bold text-center">Detalles de la maquina</h5>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item fw-bold d-flex">
+                            <span class="col-6">Marca: <p class="fw-light" id="marcaMaquinaDet">Shindaiwa</p></span>
+                            <span class="col-6">Num. de maquina: <p class="fw-light" id="numeroSerieDet">35A61BI</p>
+                            </span>
+                        </li>
+                        <li class="list-group-item fw-bold d-flex">
+                            <span class="col-6">Fecha de ingreso: <p class="fw-light" id="fechaIngresoDet">12/05/2023
+                                </p>
+                            </span>
+                            <span class="col-6">Fecha de salida: <p class="fw-light" id="fechaSalidaDet">No aplica</p>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="observacionesMaquina">
+                    <h5 class="fw-bold text-center">Observaciones de la maquina</h5>
+                    <hr>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item fw-bold"><span class="col-4">Observaciones iniciales: <p
+                                    class="fw-light" id="observacionesInicialDet">"Ninguna observacion..."</p></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group" role="group" aria-label="Opciones">
+                        <button type="button" class="btn btn-eliminar" id="offEliminarPac"><i
+                                class="bi bi-trash3-fill"></i></button>
+                        <button type="button" class="btn btn-agregar" id="offCanvasEdit"><i
+                                class="bi bi-pencil-square"></i></button>
+                        <button type="button" class="btn btn-secondary" id="offActualizarEst">Estado <i
+                                class="bi bi-chevron-bar-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- TODO: Cuerpo del affcanvas para editar la info -->
+            <div id="editarDetalles" style="padding: 0;">
+                <form>
+                    <div id="dueñoFormEdit">
+                        <h5 class="fw-bold text-center mt-1">Información del dueño</h5>
+                        <hr>
+                        <div class="mb-2">
+                            <label for="nombreDueñoEdit" class="form-label">Nombre del dueño</label>
+                            <input type="name" class="form-control" placeholder="ejemplo: Pepito Perez"
+                                id="nombreDueñoEdit" aria-describedby="nameHelp">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="col-6" style="padding-right: 2px;">
+                                <label for="cedulaDueñoEdit" class="form-label">Cédula del dueño</label>
+                                <input type="number" class="form-control" placeholder="ejm: 1005450123"
+                                    id="cedulaDueñoEdit" aria-describedby="cudelaHelp">
+                            </div>
+                            <div class="col-6" style="padding-left: 2px;">
+                                <label for="telefonoDueñoEdit" class="form-label">Teléfono del dueño</label>
+                                <input type="tel" class="form-control" placeholder="ejm: 3228080377"
+                                    id="telefonoDueñoEdit" aria-describedby="telHelp">
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="direccionDueñoEdit" class="form-label">Direccion del dueño</label>
+                            <input type="text" class="form-control" placeholder="ejm: carrera 6 #10-32"
+                                id="direccionDueñoEdit" aria-describedby="direccionHelp">
+                        </div>
+                    </div>
+                    <div id="MaquinaFormEdit" class="mt-4">
+                        <h5 class="fw-bold text-center">Inf. de la maquina</h5>
+                        <hr>
+                        <div class="mb-2">
+                            <label for="fechaIngresoEdit" class="form-label">Fecha de ingreso</label>
+                            <input type="datetime-local" class="form-control" id="fechaIngresoEdit"
+                                aria-describedby="fechaIHelp">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="col-6" style="padding-right: 2px;">
+                                <label for="marcaMaquinaEdit" class="form-label">Marca</label>
+                                <input type="text" class="form-control" placeholder="ejm: Shindaiwa B45"
+                                    aria-label="labelMarca" id="marcaMaquinaEdit">
+                            </div>
+                            <div class="col-6" style="padding-left: 2px;">
+                                <label for="numeroSerieEdit" class="form-label">N° Serie</label>
+                                <input type="text" class="form-control" placeholder="ejm: 49UBB851"
+                                    aria-label="labelNumero" id="numeroSerieEdit">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="observacionFormEdit" class="mt-4">
+                        <h5 class="fw-bold text-center">Observaciones de la maquina</h5>
+                        <hr>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text">Inicial</span>
+                            <textarea class="form-control" aria-label="With textarea" id="observacionesEdit"></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example"
+                            style="margin-top: 10px;">
+                            <button type="button" class="btn btn-eliminar" id="btnLimpiarEdit"><i
+                                    class="bi bi-eraser"></i></button>
+                            <button type="button" class="btn btn-cancelar" id="btnCancelarEdit"><i
+                                    class="bi bi-x-square"></i></button>
+                            <button type="button" class="btn btn-agregar" id="btnGuardarEdit">Actualizar <i
+                                    class="bi bi-save2"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--*Offcanvas add Pacientes-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasaddpaciente" aria-labelledby="offcanvasaddpaciente">
+        <div class="offcanvas-header">
+            <!-- TODO: titulo del affcanvas es aqui donde va la estructura -->
+            <h5 class="offcanvas-title" id="offcanvasaddpacientelabel">Agregar Paciente 😷</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- TODO: Cuerpo del affcanvas es aqui donde va la estructura -->
+            <form>
+                <div id="dueñoForm">
+                    <h5 class="fw-bold text-center mt-1">Información del dueño</h5>
+                    <hr>
+                    <div class="mb-2">
+                        <label for="nombreDueño" class="form-label">Nombre del dueño</label>
+                        <input type="name" class="form-control" placeholder="ejemplo: Pepito Perez" id="nombreDueño"
+                            aria-describedby="nameHelp">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="col-6" style="padding-right: 2px;">
+                            <label for="cedulaDueño" class="form-label">Cédula del dueño</label>
+                            <input type="number" class="form-control" placeholder="ejm: 1005450123" id="cedulaDueño"
+                                aria-describedby="cudelaHelp">
+                        </div>
+                        <div class="col-6" style="padding-left: 2px;">
+                            <label for="telefonoDueño" class="form-label">Teléfono del dueño</label>
+                            <input type="tel" class="form-control" placeholder="ejm: 3228080377" id="telefonoDueño"
+                                aria-describedby="telHelp">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="direccionDueño" class="form-label">Direccion del dueño</label>
+                        <input type="text" class="form-control" placeholder="ejm: carrera 6 #10-32" id="direccionDueño"
+                            aria-describedby="direccionHelp">
+                    </div>
+                </div>
+                <div id="MaquinaForm" class="mt-4">
+                    <h5 class="fw-bold text-center">Inf. de la maquina</h5>
+                    <hr>
+                    <div class="mb-2">
+                        <label for="fechaIngreso" class="form-label">Fecha de ingreso</label>
+                        <input type="datetime-local" class="form-control" id="fechaIngreso"
+                            aria-describedby="fechaIHelp">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="col-6" style="padding-right: 2px;">
+                            <label for="marcaMaquina" class="form-label">Marca</label>
+                            <input type="text" class="form-control" placeholder="ejm: Shindaiwa B45"
+                                aria-label="labelMarca" id="marcaMaquina">
+                        </div>
+                        <div class="col-6" style="padding-left: 2px;">
+                            <label for="numeroSerie" class="form-label">N° Serie</label>
+                            <input type="text" class="form-control" placeholder="ejm: 49UBB851" aria-label="labelNumero"
+                                id="numeroSerie">
+                        </div>
+                    </div>
+                </div>
+                <div id="observacionForm" class="mt-4">
+                    <h5 class="fw-bold text-center">Observaciones de la maquina</h5>
+                    <hr>
+                    <div class="input-group mb-2">
+                        <span class="input-group-text">Inicial</span>
+                        <textarea class="form-control" aria-label="With textarea" id="observaciones"></textarea>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="btn-group" role="group" aria-label="Basic mixed styles example"
+                        style="margin-top: 10px;">
+                        <button type="button" class="btn btn-eliminar" id="btnLimpiar"><i
+                                class="bi bi-eraser"></i></button>
+                        <button type="button" class="btn btn-agregar" id="btnGuardar">Guardar <i
+                                class="bi bi-save2"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="Js/page/Clinica.js" type="module"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+</body>
+
+</html>

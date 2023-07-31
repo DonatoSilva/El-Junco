@@ -1,0 +1,151 @@
+/*Diseño generales*/
+body {
+    margin: 0;
+    background-color: #ffff;
+}
+
+hr {
+    background-color: #04151F;
+}
+
+.btn-cancelar {
+    color: #F0F7EE;
+    background-color: #04151fe2;
+}
+
+.btn-cancelar:hover {
+    background-color: #F0F7EE;
+    border: 1px solid #04151fe2;
+    color: #04151fe2;
+}
+
+.btn-outline-junco {
+    color: #F0F7EE;
+    border: 1px solid #F0F7EE;
+}
+
+.btn-outline-junco:hover {
+    color: #000;
+    background-color: #ffff;
+}
+
+/*Diseño offCanvas*/
+.offcanvas-header {
+    background-color: #04151F;
+    color: #f0f7ee;
+
+    .btn-close {
+        background-color: #cdd6d0;
+    }
+}
+
+.btn-agregar {
+    border: none;
+    background-color: #1985A1;
+    color: #F0F7EE;
+    border: 1px solid #1985A1;
+}
+
+.btn-agregar:hover {
+    color: #1985A1;
+    background-color: #F0F7EE;
+    border: 1px solid #1985A1;
+}
+
+/*Diseño tabla de clínica*/
+#clinicaTable,
+#almacenTable {
+    display: flex;
+    justify-content: center;
+}
+
+#clinicaTable table,
+#almacenTable table {
+    width: 95%;
+}
+
+#clinicaTable table caption,
+#almacenTable table caption {
+    border-radius: 24px 24px 0 0;
+    background-color: #F0F7EE;
+    color: #04151F;
+    padding: 15px 24px;
+}
+
+#clinicaTable table thead tr th,
+#almacenTable table thead tr th {
+    color: #F0F7EE;
+    background: #04151F;
+}
+
+#clinicaTable table tbody tr td,
+#almacenTable table tbody tr td {
+    color: #04151F;
+    background-color: #F0F7EE;
+}
+
+#clinicaTable table tbody tr th,
+#almacenTable table tbody tr th {
+    color: #04151F;
+    background-color: #F0F7EE;
+}
+
+#clinicaTable table tbody tr:hover th,
+#clinicaTable table tbody tr:hover td,
+#almacenTable table tbody tr:hover th,
+#almacenTable table tbody tr:hover td {
+    background-color: #CDD6D0;
+}
+
+#clinicaTable .btn,
+#almacenTable .btn {
+    --bs-btn-padding-y: .2rem;
+    --bs-btn-padding-x: .4rem;
+    --bs-btn-font-size: .70rem;
+    margin: auto;
+    width: 80%;
+    color: #fff;
+    background-color: #1985A1;
+}
+
+#clinicaTable .btn:hover,
+#almacenTable .btn:hover {
+    --bs-btn-padding-y: .2rem;
+    --bs-btn-padding-x: .4rem;
+    --bs-btn-font-size: .70rem;
+    color: #1985A1;
+    border-color: #1985A1;
+    border-style: inherit;
+    border-width: 1px;
+    background-color: #ffff;
+    transition-duration: .2s;
+}
+
+/*estilo de los botones*/
+.btn-eliminar {
+    background-color: #DB3A34;
+    color: #F0F7EE;
+}
+
+.btn-eliminar:hover {
+    border: #DB3A34 solid 1px;
+    background-color: #fff;
+    color: #DB3A34;
+}
+
+/* Estilos para botones deshabilitados */
+button:disabled {
+    /* Estilos específicos para botones deshabilitados */
+    border: 1px solid #CDD6D0;
+}
+
+/* TODO: Media (configuracion responsibe) */
+
+@media (max-width: 768px) {
+    /* *diseños aplicados para la tabla de pacientes */
+
+    #clinicaTable table,
+    #almacenTable table {
+        width: 100%;
+    }
+}

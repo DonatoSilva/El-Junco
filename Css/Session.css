@@ -1,0 +1,61 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0%;
+    background-color: #CDD6D0;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#formLog {
+    color: #04151F;
+    margin: auto;
+    padding: 25px 34px;
+    width: 100%;
+    min-height: min-content;
+    height: max-content;
+    max-width: 400px;
+    border-radius: 24px;
+    background: #cdd6d0;
+    box-shadow: -29px 29px 58px #7d837f,
+        29px -29px 58px #ffffff;
+}
+
+#formLog .titleForm {
+    border-radius: 14px 14px 0 0;
+    background-color: #F0F7EE;
+    color: #04151F;
+    padding-bottom: 10px;
+    border-radius: 24px;
+    background: linear-gradient(225deg, #d8ded6, #ffffff);
+    box-shadow: -20px 20px 60px #ccd2ca,
+        20px -20px 60px #ffffff;
+}
+
+#formLog .titleForm .fw-lighter span {
+    color: #fff;
+    background-color: #04151F;
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.btn_color-1 {
+    color: #ffff;
+    background-color: #04151F;
+    border-radius: 24px;
+}
+
+.btn_color-1:hover {
+    color: #04151F;
+    background-color: #ffff;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #04151F;
+}
+
+#LogOff:checked {
+    background-color: #04151F;
+}

@@ -1,0 +1,215 @@
+/*Diseño de resumen*/
+.ResumenContainer {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  border-radius: 24px;
+  margin-top: 10px;
+  margin-bottom: 24px;
+  background-color: #CDD6D0;
+}
+
+#TitleResumen {
+  color: #F0F7EE;
+  width: 100%;
+  height: 100%;
+  max-width: 300px;
+  padding: 15px;
+  border-radius: 24px 0 0 24px;
+  background: #04151F;
+}
+
+#TitleResumen img {
+  width: 100%;
+}
+
+.card-group {
+  margin: 15px 5px 15px 15px;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.card-group .card {
+  border-radius: 0;
+  margin-right: 10px;
+  min-width: 250px;
+}
+
+.card-group .card:first-child {
+  margin-bottom: 16px;
+  border-radius: 24px;
+}
+
+.card-group .card:first-child .card-header {
+  border-radius: 24px 24px 0 0;
+}
+
+.card-group .card:nth-child(2) {
+  margin-bottom: 16px;
+  border-radius: 24px;
+}
+
+.card-group .card:nth-child(2) .card-header {
+  border-radius: 24px 24px 0 0;
+}
+
+.card-group .card:last-child {
+  margin-bottom: 16px;
+  border-radius: 24px;
+}
+
+.card-group .card:last-child .card-header {
+  border-radius: 24px 24px 0 0;
+}
+
+.card-group .card:last-child .card-body .list-group:last-child {
+  border-radius: 0 0 24px 24px;
+}
+
+
+.card-group .card-header {
+  color: #04151F;
+  background-color: #F0F7EE;
+}
+
+/*Diseño de clínica*/
+
+.container h3 {
+  width: max-content;
+}
+
+.containerCard {
+  width: 600px;
+  padding: 24px 0px;
+}
+
+.containerCard .card {
+  display: flex;
+  border-radius: 24px;
+  /*   margin-left: -50px; */
+  transition: 0.4s ease-out;
+  position: relative;
+  left: 0px;
+}
+
+.containerCard .card .btn {
+  color: #F0F7EE;
+  background-color: #04151F;
+}
+
+.containerCard .card .btn:hover {
+  color: #04151F;
+  background-color: #F0F7EE;
+}
+
+.containerCard .card:first-child {
+  color: #F0F7EE;
+  background-color: #DB3A34;
+}
+
+.containerCard .card:nth-child(2) {
+  color: #F0F7EE;
+  background-color: #FC7A1E;
+}
+
+.containerCard .card:nth-child(3) {
+  color: #F0F7EE;
+  background-color: #1985A1;
+}
+
+.containerCard .card:not(:first-child) {
+  margin-left: -50px;
+}
+
+.containerCard .card:hover~.card {
+  position: relative;
+  left: 50px;
+  transition: 0.4s ease-out;
+}
+
+.offcanvas {
+  .detalles {
+    width: 100%;
+    padding: 0;
+
+    & div {
+      padding: 12px 24px;
+    }
+
+    & h5 {
+      color: #04151F;
+    }
+
+    & hr {
+      color: #04151F;
+    }
+
+    #estadoPac {
+      text-align: center;
+      padding: 10px 0 0 0;
+      color: #fff;
+      background-color: #0C4B66;
+
+      & span {
+        padding: 5px;
+        background-color: #DB3A34;
+        color: #fff;
+      }
+
+      & p {
+        padding: 0;
+      }
+    }
+  }
+
+  #editarDetalles {
+    display: none;
+    margin: 12px 24px;
+    & div {
+      padding: 0;
+    }
+  }
+
+  .list-group {
+    border-radius: 0 0px 24px 24px;
+
+    & p {
+      margin-bottom: 0;
+    }
+
+    .list-group-item {
+      color: #04151F;
+      background-color: #F0F7EE;
+    }
+  }
+
+  .list-group-item.d-flex {
+    & span:first-child {
+      margin-right: 10px;
+      border-right-color: #CDD6D0;
+      border-right-width: 1px;
+      border-right-style: solid;
+    }
+  }
+}
+/* TODO: Media (configuracion responsibe) */
+
+@media (max-width: 768px) {
+  /* *diseños aplicados para la parte la seccion de resumen */
+
+  .ResumenContainer {
+    grid-template-columns: 1fr;
+    margin-bottom: 24px;
+  }
+
+  #TitleResumen {
+    border-radius: 24px 24px 0 0;
+    min-width: 100%;
+  }
+
+  #TitleResumen img {
+    display: flex;
+    justify-self: center;
+    margin: auto;
+    max-width: 30%;
+  }
+}
