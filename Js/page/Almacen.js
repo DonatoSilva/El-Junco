@@ -235,6 +235,7 @@ function obtInfAddKits() {
 const btnAddKit = document.querySelector('#btnAddkits');
 btnAddKit.addEventListener('click', () => {
     agregarKit("Kit de repuesto", 55600, obtInfAddKits());
+    limpiarAddKit();
 })
 
 //retira los elementos grump del kit form
@@ -253,6 +254,30 @@ function QuitarGroupKit(id) {
         }
     });
 }
+
+//! limpiar formulari add kits
+function limpiarAddKit() {  //<-- se encarga de limpiar el formulario de aggregar kit
+    //ejecutar la funcion de limpiar los inputs
+    limpiarCampo('precioKit');
+    limpiarCampo('nombreKit');
+
+    const limpiarContainer = () => {
+        countGruopKit = 0;
+        cleanHtml('containerGroupKit')
+        let [code, kitId] = codGruopKit(countGruopKit);
+        if (countGruopKit == 0) {
+            inyhtm('containerGroupKit', opcInsert.BEFORE_END, code);
+        }
+    }
+
+    limpiarContainer()
+}
+
+const btnLimpiarAddKit = document.getElementById('btnLimpiarAddKit');
+btnLimpiarAddKit.addEventListener('click', () => {
+    limpiarAddKit();
+    mostarToastify("Campos limpios", colors.INF);
+});
 
 //*Editar Producto codigo y funciones necesaria
 //Codigo para editar la info del producto
