@@ -65,7 +65,10 @@ function listItemMinProduct(listItemArrys) {
     } else {
         const numeroMax = listItemArrys.length >= 5 ?  5 : listItemArrys.length;
         //el for no debe superar los 5 item por que no se va a mostrar todos los item
-        habDeshabiBoton("listFullMinProduct")
+        habDeshabiBoton("listFullMinProduct", true);
+        if (listItemArrys.length > 5) {
+            habDeshabiBoton("listFullMaxProduct", false);
+        }
         for (let i = 0; i < numeroMax; i++) {
             inyhtm("gruopMinProduct", opcInsert.BEFORE_END, itemMinProduct(listItemArrys[i].nombre, listItemArrys[i].cant_min, listItemArrys[i].cant))
         }
@@ -76,7 +79,7 @@ function listItemMinProduct(listItemArrys) {
             const btn = btnModificar[i]
 
             btn.addEventListener("click", () => {
-                mostarToastify("click", colors.INF)
+                mostarToastify("Listo para editar", colors.INF)
                 offCanvasMod(producto.id, producto.nombre, producto.marca, producto.cant, producto.cant_min, producto.precio_compra, producto.unidad_compra, producto.inf_und_compra, producto.precio_venta, producto.unidad_venta, producto.inf_und_venta);
                 setTimeout(funcionEditProduct, 200); //
             })
@@ -84,6 +87,7 @@ function listItemMinProduct(listItemArrys) {
     }
 }
 
+//renderizar los kit en la tabla de kits
 function gruopListKits(kitsArrays) {
     insertText("longitudKits", kitsArrays.length)
     if (kitsArrays.length === 0) {
@@ -93,8 +97,11 @@ function gruopListKits(kitsArrays) {
     } else {
         const numeroMax = kitsArrays.length >= 5?  5 : kitsArrays.length;
         //el for no debe superar los 5 item por que no se va a mostrar todos los item
-        habDeshabiBoton("listFullKits")
-        for (let i = 0; i < 5; i++) {
+        habDeshabiBoton("listFullKits", true)
+        if (kitsArrays.length > 5 ) {
+            habDeshabiBoton("listFullKits");
+        }
+        for (let i = 0; i < numeroMax; i++) {
             inyhtm("itemListKits", opcInsert.BEFORE_END, itemKitCod(kits[i].nombre, kits[i].cantProx, kits[i].precio))
         }
     }
@@ -214,10 +221,14 @@ function obtInfAddKits() {
     //recorremos lo obtendo en el divSelect..
     divSelectAsh.forEach((elements) => {
         const selectItem = elements.querySelector('select');
-        const inputItem = elements.querySelector('input[type="number');
+        const inputItem = elements.querySelector('input[type="number"]');
 
         const selectedOption = selectItem.options[selectItem.selectedIndex];
         const selectedText = selectedOption.text;
+
+        if (selectedText.trim() === '' ||  selectItem.value === undefined || selectItem.value.trim() === '' || isNaN(parseInt(inputItem.value, 10)) ) {
+            return false;
+        }
 
         var diccionarioSelect = {
             text: selectedText,
@@ -234,8 +245,18 @@ function obtInfAddKits() {
 //boton add kits
 const btnAddKit = document.querySelector('#btnAddkits');
 btnAddKit.addEventListener('click', () => {
-    agregarKit("Kit de repuesto", 55600, obtInfAddKits());
+    const nombre = document.getElementById('nombreKit').value;
+    const precio = parseInt(document.getElementById('precioKit').value, 10);
+    const listKits = obtInfAddKits();
+
+    if (nombre.trim() === '' || isNaN(precio) || listKits.length === 0 || listKits === false) { 
+        mostarToastify("Los campos no pueden estar vacios", colors.WARNING);
+        return false;
+    }
+
+    agregarKit(nombre, precio, listKits);
     limpiarAddKit();
+    return true;
 })
 
 //retira los elementos grump del kit form
