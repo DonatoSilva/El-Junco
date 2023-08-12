@@ -25,7 +25,7 @@ function itemKitCod(nombre, cantProx, precio) {
                                     </div>
                                     <div class="col-2 p-1" style="height: min-content;">
                                         <button type="button" class="btn btn-agregar p-1 me-1"
-                                            style="font-size: small; width: 90%;"><i
+                                            style="font-size: small; width: 90%;" data-bs-toggle="offcanvas" href="#offcanvasKits" role="button" aria-controls="offcanvasKits"><i
                                                 class="bi bi-three-dots-vertical"></i></button>
                                     </div>
                                 </div>
