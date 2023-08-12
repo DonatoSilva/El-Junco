@@ -31,9 +31,11 @@
 }
 
 /* estilo de offcanvas body */
+
 .detalles {
     padding: 0;
 
+    #detallesKit,
     #detallesProducto {
         width: 100%;
         padding: 12px 24px;
@@ -44,6 +46,22 @@
 
         & hr {
             color: #04151F;
+        }
+    }
+
+    #detallesKit {
+        & h5 {
+            margin-bottom: 8px;
+        }
+
+        & ul { 
+            margin-bottom: 16px;
+        }
+
+        #offCanvasListProct {
+            .list-group {
+                border-radius: 20px;
+            }
         }
     }
 

@@ -50,6 +50,23 @@ function tbodyCod(index, opcion1, opcion2, opcion3, opcion4) {
     return tbody;
 }
 
+/// fragment of the code for list elements product kit
+function codListProducKit(nombre, precio, cantidad, precioTotal) {
+    const codList = `<ul class="list-group list-group-flush">
+                        <li class="list-group-item fw-bold">
+                            <span class="">Nombre: <p class="fw-light">${nombre}</p></span>
+                        </li>
+                        <li class="list-group-item fw-bold d-flex">
+                            <span class="col-8">Precio: <p class="fw-light mb-0 text-center" style="font-size: large;">$${precio}</p><span class="fw-light my-0 text-center d-flex justify-content-center" style="font-size: smaller;">Unidad</span></span>
+                            <span class="col-4">Cant.: <p class="fw-light text-center" style="font-size: large;">${cantidad}</p><span class="fw-light my-0 text-center d-flex justify-content-center" style="font-size: smaller;">Unidades</span></span>
+                        </li>
+                        <li class="list-group-item fw-bold">
+                            <span class="">Precio Total: <p class="fw-light">${precioTotal}</p></span>
+                        </li>
+                    </ul>`;
+    return codList;
+}
+
 function codGruopKit(count) {
     const kit = "Kit-" + count;
 
@@ -275,5 +292,6 @@ export {
     hideOffcanvas,
     insertOptions,
     itemKitCod,
-    itemMinProduct
+    itemMinProduct,
+    codListProducKit
 }
