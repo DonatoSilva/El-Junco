@@ -24,7 +24,7 @@ function itemKitCod(nombre, cantProx, precio) {
                                         <span class="small fw-light">$ </span>${precio}
                                     </div>
                                     <div class="col-2 p-1" style="height: min-content;">
-                                        <button type="button" class="btn btn-agregar p-1 me-1"
+                                        <button type="button" class="btn btn-agregar p-1 me-1 btnTablaKits"
                                             style="font-size: small; width: 90%;" data-bs-toggle="offcanvas" href="#offcanvasKits" role="button" aria-controls="offcanvasKits"><i
                                                 class="bi bi-three-dots-vertical"></i></button>
                                     </div>
@@ -51,17 +51,11 @@ function tbodyCod(index, opcion1, opcion2, opcion3, opcion4) {
 }
 
 /// fragment of the code for list elements product kit
-function codListProducKit(nombre, precio, cantidad, precioTotal) {
+function codListProducKit(nombre, cantidad) {
     const codList = `<ul class="list-group list-group-flush">
-                        <li class="list-group-item fw-bold">
-                            <span class="">Nombre: <p class="fw-light">${nombre}</p></span>
-                        </li>
                         <li class="list-group-item fw-bold d-flex">
-                            <span class="col-8">Precio: <p class="fw-light mb-0 text-center" style="font-size: large;">$${precio}</p><span class="fw-light my-0 text-center d-flex justify-content-center" style="font-size: smaller;">Unidad</span></span>
-                            <span class="col-4">Cant.: <p class="fw-light text-center" style="font-size: large;">${cantidad}</p><span class="fw-light my-0 text-center d-flex justify-content-center" style="font-size: smaller;">Unidades</span></span>
-                        </li>
-                        <li class="list-group-item fw-bold">
-                            <span class="">Precio Total: <p class="fw-light">${precioTotal}</p></span>
+                            <span class="col-9">Nombre: <p class="fw-light mb-0" style="font-size: large;">${nombre}</p></span>
+                            <span class="col-3">Cant.: <p class="fw-light text-center" style="font-size: large;">${cantidad}</p><span class="fw-light my-0 text-center d-flex justify-content-center" style="font-size: smaller;">Unidades</span></span>
                         </li>
                     </ul>`;
     return codList;
@@ -258,7 +252,7 @@ function insertOptions(selectId, options) {
     });
 }
 
-//funcion insertar texto
+//funcion insertar texto para elementos
 function insertText(id, texto) {
     // Obtener el elemento padre
     const element = document.getElementById(id);
@@ -266,6 +260,7 @@ function insertText(id, texto) {
     element.textContent = texto;
 }
 
+//funcion insertar texto para Input element
 function insertValueText(id, texto) {
     // Obtener el elemento padre
     const element = document.getElementById(id);
