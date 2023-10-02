@@ -1,5 +1,5 @@
 import { colors, opcInsert } from "../enum.js";
-import { changePageTitle, navbarCod, inyhtm, limpiarCampo, habDeshabiBoton, mostarToastify, exitSession, tbodyCod, insertText, cleanHtml, tbodyCodVacio, codGruopKit, insertValueText, insertOptions, itemKitCod, itemMinProduct } from "../function.js";
+import { changePageTitle, navbarCod, inyhtm, limpiarCampo, habDeshabiBoton, mostarToastify, exitSession, tbodyCod, insertText, cleanHtml, tbodyCodVacio, codGruopKit, insertValueText, insertOptions, itemKitCod, itemMinProduct, codListProducKit } from "../function.js";
 import { actualizaciones, actualizarProducto, agregarProducto, eliminarProducto, productos as arrayProductos, agregarKit, actualizadoKits, kits } from "../Data/firebase-firestore-almacen.js";
 
 // cambiar titulo de la pestaña
@@ -63,20 +63,23 @@ function listItemMinProduct(listItemArrys) {
         inyhtm('gruopMinProduct', opcInsert.BEFORE_END, tbodyCodVacio());
         habDeshabiBoton("listFullMinProduct", true)
     } else {
-        const numeroMax = listItemArrys.length >= 5 ?  5 : listItemArrys.length;
+        const numeroMax = listItemArrys.length >= 5 ? 5 : listItemArrys.length;
         //el for no debe superar los 5 item por que no se va a mostrar todos los item
-        habDeshabiBoton("listFullMinProduct")
+        habDeshabiBoton("listFullMinProduct", true);
+        if (listItemArrys.length > 5) {
+            habDeshabiBoton("listFullMaxProduct", false);
+        }
         for (let i = 0; i < numeroMax; i++) {
             inyhtm("gruopMinProduct", opcInsert.BEFORE_END, itemMinProduct(listItemArrys[i].nombre, listItemArrys[i].cant_min, listItemArrys[i].cant))
         }
 
         const btnModificar = document.getElementsByClassName("btnFuncionMinProduct")
-        for (let i = 0; i < numeroMax; i++) { 
+        for (let i = 0; i < numeroMax; i++) {
             const producto = listItemArrys[i]
             const btn = btnModificar[i]
 
             btn.addEventListener("click", () => {
-                mostarToastify("click", colors.INF)
+                mostarToastify("Listo para editar", colors.INF)
                 offCanvasMod(producto.id, producto.nombre, producto.marca, producto.cant, producto.cant_min, producto.precio_compra, producto.unidad_compra, producto.inf_und_compra, producto.precio_venta, producto.unidad_venta, producto.inf_und_venta);
                 setTimeout(funcionEditProduct, 200); //
             })
@@ -84,6 +87,7 @@ function listItemMinProduct(listItemArrys) {
     }
 }
 
+//renderizar los kit en la tabla de kits
 function gruopListKits(kitsArrays) {
     insertText("longitudKits", kitsArrays.length)
     if (kitsArrays.length === 0) {
@@ -91,14 +95,43 @@ function gruopListKits(kitsArrays) {
         inyhtm('itemListKits', opcInsert.BEFORE_END, tbodyCodVacio());
         habDeshabiBoton("listFullKits", true)
     } else {
-        const numeroMax = kitsArrays.length >= 5?  5 : kitsArrays.length;
+        const numeroMax = kitsArrays.length >= 5 ? 5 : kitsArrays.length;
         //el for no debe superar los 5 item por que no se va a mostrar todos los item
-        habDeshabiBoton("listFullKits")
-        for (let i = 0; i < 5; i++) {
+        habDeshabiBoton("listFullKits", true)
+        if (kitsArrays.length > 5) {
+            habDeshabiBoton("listFullKits");
+        }
+        for (let i = 0; i < numeroMax; i++) {
             inyhtm("itemListKits", opcInsert.BEFORE_END, itemKitCod(kits[i].nombre, kits[i].cantProx, kits[i].precio))
         }
+
+        //Codigo del boton de las opciones en la tabla de kits
+        const btnTablaKits = document.querySelectorAll(".btnTablaKits"); ///boton de los kits
+        const setDataKit = (nombre, cantKits, precio, data) => {
+            insertText("NombreKits", nombre);
+            insertText("CantKits", cantKits);
+            insertText("PrecioKit", `$ ${precio}`);
+
+            cleanHtml("offCanvasListProct");
+            if (data.length > 0) {
+                data.forEach(ul => {
+                    inyhtm("offCanvasListProct", opcInsert.BEFORE_END, codListProducKit(ul.text, ul.cant))
+                });
+            } else {
+                inyhtm("offCanvasListProct", opcInsert.BEFORE_END, `<h5 class="w-100 text-center opacity-50" id="textVacioGroup">Nada que mostrar...</h5>`);
+            }
+
+        }
+
+        btnTablaKits.forEach((btn, index) => {
+            btn.addEventListener("click", () => {
+                setDataKit(kits[index].nombre, kits[index].cantProx, kits[index].precio, kits[index].productos)
+            })
+        });
     }
 }
+
+
 
 function productosTabla(productos) {
     //condicional para poner el mensaje de vacio
@@ -214,10 +247,14 @@ function obtInfAddKits() {
     //recorremos lo obtendo en el divSelect..
     divSelectAsh.forEach((elements) => {
         const selectItem = elements.querySelector('select');
-        const inputItem = elements.querySelector('input[type="number');
+        const inputItem = elements.querySelector('input[type="number"]');
 
         const selectedOption = selectItem.options[selectItem.selectedIndex];
         const selectedText = selectedOption.text;
+
+        if (selectedText.trim() === '' || selectItem.value === undefined || selectItem.value.trim() === '' || isNaN(parseInt(inputItem.value, 10))) {
+            return false;
+        }
 
         var diccionarioSelect = {
             text: selectedText,
@@ -234,7 +271,18 @@ function obtInfAddKits() {
 //boton add kits
 const btnAddKit = document.querySelector('#btnAddkits');
 btnAddKit.addEventListener('click', () => {
-    agregarKit("Kit de repuesto", 55600, obtInfAddKits());
+    const nombre = document.getElementById('nombreKit').value;
+    const precio = parseInt(document.getElementById('precioKit').value, 10);
+    const listKits = obtInfAddKits();
+
+    if (nombre.trim() === '' || isNaN(precio) || listKits.length === 0 || listKits === false) {
+        mostarToastify("Los campos no pueden estar vacios", colors.WARNING);
+        return false;
+    }
+
+    agregarKit(nombre, precio, listKits);
+    limpiarAddKit();
+    return true;
 })
 
 //retira los elementos grump del kit form
@@ -254,6 +302,30 @@ function QuitarGroupKit(id) {
     });
 }
 
+//! limpiar formulari add kits
+function limpiarAddKit() {  //<-- se encarga de limpiar el formulario de aggregar kit
+    //ejecutar la funcion de limpiar los inputs
+    limpiarCampo('precioKit');
+    limpiarCampo('nombreKit');
+
+    const limpiarContainer = () => {
+        countGruopKit = 0;
+        cleanHtml('containerGroupKit')
+        let [code, kitId] = codGruopKit(countGruopKit);
+        if (countGruopKit == 0) {
+            inyhtm('containerGroupKit', opcInsert.BEFORE_END, code);
+        }
+    }
+
+    limpiarContainer()
+}
+
+const btnLimpiarAddKit = document.getElementById('btnLimpiarAddKit');
+btnLimpiarAddKit.addEventListener('click', () => {
+    limpiarAddKit();
+    mostarToastify("Campos limpios", colors.INF);
+});
+
 //*Editar Producto codigo y funciones necesaria
 //Codigo para editar la info del producto
 const btnActualizarProd = document.getElementById('offBtnActualizarProd');
@@ -261,7 +333,7 @@ btnActualizarProd.addEventListener('click', () => {
     funcionEditProduct();
 });
 
-const funcionEditProduct = () => { 
+const funcionEditProduct = () => {
     if (form.style.display === "" || form.style.display === "none") {
         mostrarEditProd();
     }
@@ -436,16 +508,16 @@ function findProductoId(listado, grupoID) {
 function calculoCantProx() {
     kits.length == 0 ? void 0 :
         kits.forEach((item) => {
-                if (item.productos.length != 0) {
-                    let minProxCant = 0;
-                    const listProductos = findProductoId(arrayProductos, item.productos)
-                    item.productos.forEach((p, index) => {
-                        var valor = listProductos[index].cant / p.cant
-                        minProxCant != 0 ? minProxCant = valor : minProxCant = valor;
-                    })
-                    item.cantProx = Math.round(minProxCant);
-                }
+            if (item.productos.length != 0) {
+                let minProxCant = 0;
+                const listProductos = findProductoId(arrayProductos, item.productos)
+                item.productos.forEach((p, index) => {
+                    var valor = listProductos[index].cant / p.cant
+                    minProxCant != 0 ? minProxCant = valor : minProxCant = valor;
+                })
+                item.cantProx = Math.round(minProxCant);
             }
+        }
         );
 }
 
