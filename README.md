@@ -1,5 +1,5 @@
 # EL JUNCO 💻
-**Estado:** DESARROLLO
+**Estado:** Cancelado
 
 **Tipo de desarrollo:** Individual
 
